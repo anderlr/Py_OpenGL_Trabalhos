@@ -14,7 +14,7 @@ Do site https://www.lfd.uci.edu/~gohlke/pythonlibs/, baixe:
 1. PyOpenGL-3.1.5-cp39-cp39-win_amd64.whl
 2. PyOpenGL_accelerate-3.1.5-cp39-cp39-win_amd64.whl
 
-Em seguida instale com o comandoL
+Em seguida instale com o comando:
 ```
 pip install <nomedoarquivo>.whl
 ```
