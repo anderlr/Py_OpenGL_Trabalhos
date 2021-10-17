@@ -23,5 +23,6 @@ pip install <nomedoarquivo>.whl
 
 ```
 pip install PyOpenGL PyOpenGL_accelerate
+sudo apt-get install freeglut3-dev
 
 ```
