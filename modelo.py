@@ -1,8 +1,8 @@
 '''
-trabalho
-douglas 2019018540
-gabriel ?
-anderson 2018019033
+Trabalho para a Avaliação (N1)
+Douglas Raimundo de Oliveira Silva - 2019018540
+Gabriel  Jose Mouallem Rodrigues - 2017017731
+Anderson Leandro Dos Reis - 2018019033
 '''
 
 import sys
@@ -25,12 +25,12 @@ def ppm_to_array(filedirectory):
     return dimension[0], dimension[1] #, np.array(img, dtype = int)
 
 
-## Window width.
+## Largura da Janela
 win_width = 800
-## Window height.
+## Altura da Janela
 win_height = 600
 
-## Program variable.
+## Variavel Program
 program = None
 ## Vertex array object.
 VAO = None
@@ -62,11 +62,6 @@ void main()
     FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 } 
 """
-
-## Drawing function.
-#
-# Draws a triangle.
-
 
 def display():
 
