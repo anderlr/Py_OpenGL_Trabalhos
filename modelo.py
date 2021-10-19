@@ -108,7 +108,7 @@ def keyboard(key, x, y):
 # Defines the coordinates for vertices, creates the arrays for OpenGL.
 
 def create_square(dimensionX, dimensionY, deslX = 0, deslY = 0):
-    vertices1 = np.array([
+    vertices = np.array([
 
         # first triangle
         dimensionX + deslX, dimensionY + deslY, 0.0,  # top right
@@ -121,7 +121,7 @@ def create_square(dimensionX, dimensionY, deslX = 0, deslY = 0):
 
     ], dtype = 'float32')
 
-    return vertices1
+    return vertices
 
 def initData():
 
@@ -133,22 +133,12 @@ def initData():
     dimensionX = 1 / numPixelsX - 0.00001
     dimensionY = 1 / numPixelsY - 0.00001
 
-    # creating a vertices array
-    vertices_positions = []
-    for i in range(-numPixelsX + 1, numPixelsX + 1, 2):
-        for j in range(-numPixelsY + 1, numPixelsY + 1, 2):
-            vertices_positions.append((i, j))
-    
-    # creating squares with vertices_positions
+    # creating vertices array and squares
+    vertices_positions = [(i, j) for j in range(-numPixelsY + 1, numPixelsY + 1, 2) for i in range(-numPixelsX + 1, numPixelsX + 1, 2)]
     vertices = [create_square(dimensionX, dimensionY, i * dimensionX, j * dimensionY) for i, j in vertices_positions]
 
     # concatenate all vertices
     vertices = np.concatenate(vertices, axis = 0)
-
-    indexes = np.array([
-        0, 1, 3,  # first Triangle
-        1, 2, 3   # second Triangle
-    ], dtype='float32')
 
     # Vertex array.
     VAO = gl.glGenVertexArrays(1)
