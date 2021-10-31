@@ -1,5 +1,5 @@
 '''
-Trabalho para a Avaliação (N1)
+Trabalho para a Lista 3
 Douglas Raimundo de Oliveira Silva - 2019018540
 Gabriel  Jose Mouallem Rodrigues - 2017017731
 Anderson Leandro Dos Reis - 2018019033
