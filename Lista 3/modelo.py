@@ -14,19 +14,6 @@ import OpenGL.GL as gl
 import OpenGL.GLUT as glut
 from ctypes import c_void_p
 
-def ppm_to_array(filedirectory):
-
-    # read dimension of a ppm file, return the dimension and the matrix of the image
-
-    with open(filedirectory, 'r') as file:
-        img_read = file.read().split('\n')
-        dimension = np.array(img_read[1].split(), dtype = int)
-        img = list(map(lambda x: x.split(), img_read[3:]))[:-1]
-
-    #print(img)
-    
-    return dimension[0], dimension[1],img #, np.array(img, dtype = int)
-
 #contador de teclas
 key_counter = 0
 
@@ -120,23 +107,31 @@ def keyboard(key, x, y):
     glut.glutPostRedisplay()
 
     
+def ppm_to_array(filedirectory):
 
+    # read dimension of a ppm file, return the dimension and the matrix of the image
+
+    with open(filedirectory, 'r') as file:
+        img_read = file.read().split('\n')
+        dimension = np.array(img_read[1].split(), dtype = int)
+        img = list(map(lambda x: x.split(), img_read[3:]))[:-1]    
+    return dimension[0], dimension[1], np.array(img, dtype = int)
 
 ## Init vertex data.
 #
 # Defines the coordinates for vertices, creates the arrays for OpenGL.
 
-def create_square(dimensionX, dimensionY, deslX = 0, deslY = 0):
+def create_square(dimensionX, dimensionY, deslX = 0, deslY = 0, colors = (1.0, 1.0, 1.0)):
     vertices1 = np.array([
 
         # first triangle
-        dimensionX + deslX, dimensionY + deslY, 0.0,1.0,1.0,1.0,  # top right
-        dimensionX + deslX, -dimensionY + deslY, 0.0,1.0,1.0,1.0,  # bottom right
-        -dimensionX + deslX, dimensionY + deslY, 0.0,1.0,1.0,1.0,  # top left
+        dimensionX + deslX, dimensionY + deslY, 0.0, colors[0], colors[1], colors[2],  # top right
+        dimensionX + deslX, -dimensionY + deslY, 0.0, colors[0], colors[1], colors[2],  # bottom right
+        -dimensionX + deslX, dimensionY + deslY, 0.0, colors[0], colors[1], colors[2],  # top left
         # second triangle
-        dimensionX + deslX, -dimensionY + deslY, 0.0,1.0,1.0,1.0,  # bottom right
-        -dimensionX + deslX, -dimensionY + deslY, 0.0,1.0,1.0,1.0,  # bottom left
-        -dimensionX + deslX,  dimensionY + deslY, 0.0,1.0,1.0,1.0,  # top left
+        dimensionX + deslX, -dimensionY + deslY, 0.0, colors[0], colors[1], colors[2],  # bottom right
+        -dimensionX + deslX, -dimensionY + deslY, 0.0, colors[0], colors[1], colors[2],  # bottom left
+        -dimensionX + deslX,  dimensionY + deslY, 0.0, colors[0], colors[1], colors[2],  # top left
 
     ], dtype = 'float32')
 
@@ -152,18 +147,21 @@ def initData():
     dimensionX = 1 / numPixelsX - 0.00001
     dimensionY = 1 / numPixelsY - 0.00001
     # creating a vertices array
-    vertices_positions = []
-    for i in range(-numPixelsX + 1, numPixelsX + 1, 2):
-        for j in range(-numPixelsY + 1, numPixelsY + 1, 2):
-            vertices_positions.append((i, j))
+
+    colors = np.apply_along_axis(arr = img, func1d = lambda x: np.split(x, numPixelsX), axis = 1)
+    colors = colors/255
+
+    # creating squares with vertices_positions and colors
     
-    # creating squares with vertices_positions
-    vertices = [create_square(dimensionX, dimensionY, i * dimensionX, j * dimensionY) for i, j in vertices_positions]
+    vertices_positions = []
+    for i, img_i in zip(range(-numPixelsX + 1, numPixelsX + 1, 2), range(numPixelsX - 1, -1, -1)):
+        for j, img_j in zip(range(-numPixelsY + 1, numPixelsY + 1, 2), range(0, numPixelsY)):
+            vertices_positions.append((j, i, img_i, img_j))  
+    vertices = [create_square(dimensionX, dimensionY, i * dimensionX, j * dimensionY, colors = colors[img_i, img_j]) for i, j, img_i, img_j in vertices_positions]
 
     # concatenate all vertices
     vertices = np.concatenate(vertices, axis = 0)
 
-    print(vertices)
     # indexes = np.array([
     #     0, 1, 3,  # first Triangle
     #     1, 2, 3   # second Triangle
@@ -245,7 +243,7 @@ def main():
 
     ## Memory Allocation
     global numPixelsX, numPixelsY, total_pixels, img
-    numPixelsX, numPixelsY,img = ppm_to_array(sys.argv[1])
+    numPixelsX, numPixelsY, img = ppm_to_array(sys.argv[1])
     total_pixels = numPixelsX * numPixelsY
 
     glut.glutInit()
