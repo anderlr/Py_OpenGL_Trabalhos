@@ -132,6 +132,7 @@ def keyboard(key, x, y):
     elif key == b'n':
         vertices[:, 0] = vertices[:, 0] * np.cos(-0.01) - vertices[:, 1] * np.sin(-0.01)
         vertices[:, 1] = vertices[:, 1] * np.cos(-0.01) + vertices[:, 0] * np.sin(-0.01)
+    
     # reset
     elif key == b'm':
         vertices[:, :] = create_image()
