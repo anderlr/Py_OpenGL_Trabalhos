@@ -97,9 +97,6 @@ def keyboard(key, x, y):
 
     global key_counter
 
-    if key == b'\x1b' or key == b'q':
-        sys.exit()
-
     # change type
     if key == b'v' and key_counter == 0:
         gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_POINT)
@@ -109,37 +106,39 @@ def keyboard(key, x, y):
         key_counter = 0
 
     # translation
-    if key == b'a':
+    elif key == b'a':
         vertices[:, 0] = vertices[:, 0] - 0.025
-    if key == b'd':
+    elif key == b'd':
         vertices[:, 0] = vertices[:, 0] + 0.025
-    if key == b'w':
+    elif key == b'w':
         vertices[:, 1] = vertices[:, 1] + 0.025
-    if key == b's':
+    elif key == b's':
         vertices[:, 1] = vertices[:, 1] - 0.025
 
     # zoom
-    if key == b'i':
+    elif key == b'i':
         vertices[:, 0] = vertices[:, 0] * 1.025
         vertices[:, 1] = vertices[:, 1] * 1.025
-    if key == b'o':
+    elif key == b'o':
         vertices[:, 0] = vertices[:, 0] / 1.025
         vertices[:, 1] = vertices[:, 1] / 1.025
-
+    
     # rotation
-    if key == b'p':
+    # x = x1 * cos(theta) + y1 * sin(theta)
+    # y = y1 * cos(theta) - x1 * sin(theta)
+    elif key == b'p':
         vertices[:, 0] = vertices[:, 0] * np.cos(0.01) - vertices[:, 1] * np.sin(0.01)
         vertices[:, 1] = vertices[:, 1] * np.cos(0.01) + vertices[:, 0] * np.sin(0.01)
-    if key == b'n':
+    elif key == b'n':
         vertices[:, 0] = vertices[:, 0] * np.cos(-0.01) - vertices[:, 1] * np.sin(-0.01)
         vertices[:, 1] = vertices[:, 1] * np.cos(-0.01) + vertices[:, 0] * np.sin(-0.01)
-    
-    initData(vertices)
-    
-        
+    # reset
+    elif key == b'm':
+        vertices[:, :] = create_image()
+
+    initData(vertices)  
     glut.glutPostRedisplay()
 
-    
 def ppm_to_array(filedirectory):
 
     # read dimension of a ppm file, return the dimension and the matrix of the image
@@ -236,7 +235,6 @@ def initData(vertices):
 #
 # Compile shaders and create the program.
 
-
 def initShaders():
 
     # Uses vertex arrays.
@@ -304,9 +302,7 @@ def main():
 
     glut.glutMainLoop()
 
-
 if __name__ == '__main__':
     main()
-
 
 # https://learnopengl.com/Getting-started/Hello-Triangle
