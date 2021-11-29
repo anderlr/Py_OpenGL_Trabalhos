@@ -1,5 +1,5 @@
 '''
-Trabalho para a Lista 4
+Trabalho para a Lista 5
 Douglas Raimundo de Oliveira Silva - 2019018540
 Gabriel  Jose Mouallem Rodrigues - 2017017731
 Anderson Leandro Dos Reis - 2018019033
@@ -39,22 +39,26 @@ EBO = None
 
 # Vertex shader.
 vertex_code = """
-# version 330 core
+#version 330 core
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 
 out vec3 vColor;
 
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
 void main()
 {
-    gl_Position = vec4(position, 1.0);
+    gl_Position = projection * view * model * vec4(position, 1.0);
     vColor = color;
 }
 """
 
 # Fragment shader.
 fragment_code = """
-# version 330 core
+#version 330 core
 
 in vec3 vColor;
 out vec4 FragColor;
@@ -62,7 +66,7 @@ out vec4 FragColor;
 void main()
 {
     FragColor = vec4(vColor, 1.0f);
-}
+} 
 """
 
 
@@ -75,8 +79,8 @@ def display():
     gl.glBindVertexArray(VAO)
 
     # Define model matrix.
-    Rx = ut.matRotateX(np.radians(-30.0))
-    T = ut.matTranslate(0.0, 0.0, -1.0)
+    Rx = ut.matRotateX(np.radians(0.0))
+    T = ut.matTranslate(0.0, 0.0, -10.0)
     model = np.matmul(T, Rx)
 
     # Retrieve location of model variable in shader.
@@ -85,7 +89,7 @@ def display():
     gl.glUniformMatrix4fv(loc, 1, gl.GL_FALSE, model.transpose())
 
     # Define view matrix.
-    view = ut.matTranslate(0.0, 0.0, -3.0)
+    view = ut.matTranslate(0.0, 0.0, 0.0)
 
     # Retrieve location of view variable in shader.
     loc = gl.glGetUniformLocation(program, "view")
@@ -94,7 +98,7 @@ def display():
 
     # Define projection matrix.
     projection = ut.matPerspective(np.radians(
-        0.1), win_width/win_height, 0.1, 100.0)
+        30), win_width/win_height, 0.1, 100.0)
 
     # Retrieve location of projection variable in shader.
     loc = gl.glGetUniformLocation(program, "projection")
@@ -162,12 +166,8 @@ def keyboard(key, x, y):
             vertices[:, 0] = vertices[:, 0] + 0.025
         elif key == b'p':
             vertices[:, 2] = vertices[:, 2] + 0.025
-            vertices[:, 1] = vertices[:, 1] + 0.025
-            vertices[:, 0] = vertices[:, 0] + 0.025
         elif key == b'n':
             vertices[:, 2] = vertices[:, 2] - 0.025
-            vertices[:, 1] = vertices[:, 1] - 0.025
-            vertices[:, 0] = vertices[:, 0] - 0.025
 
     elif option == 'r':
         if key == b'p':  # giro em torno de z +
