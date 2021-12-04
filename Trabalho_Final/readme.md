@@ -1,12 +1,15 @@
-## O algoritmo de Dijkstra e o cenário definido
+## O cenário e o algoritmo de Dijkstra
 
 Uma nave espacial precisa sair o mais rápido possível de uma galáxia, porém as leis da galáxia obrigam a nave a pagar pedágio a cada planeta na qual ela se aproximar, sendo obrigatório viajar de planeta em planeta. A nave decidiu portanto realizar o menor caminho.
+
+
+### Cenário
+![alt text](https://i.imgur.com/JwyH8DT.png)
 
 ### Algoritmo de Dijkstra
 ![alt text](https://i.imgur.com/I3YyuX4.png)
 ![alt text](https://i.imgur.com/fllqvQH.png)
-### Cenário
-![alt text](https://i.imgur.com/JwyH8DT.png)
+
 ### Checklist
 
 - [ ] Modelar a nave espacial
