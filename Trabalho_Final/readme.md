@@ -19,15 +19,16 @@ Este algoritmo parte de uma estimativa inicial para o custo mínimo e vai sucess
 ### Checklist:
 
 - [ ] Modelar a nave espacial
-- [ ] Modelar os planetas
+- [x] Modelar os planetas
 - [ ] Adicionar cor ou textura para a nave
-- [ ] Adicionar cor ou textura para a os planetas
+- [x] Adicionar cor ou textura para a os planetas
 - [ ] Posicionar a nave no cenário
 - [ ] Posicionar os planetas
-- [ ] Posicionar a câmera no cenário
+- [x] Posicionar a câmera no cenário
 - [ ] Movimentar a nave seguindo menor caminho (Dijkstra)
 
 
 https://pt.vecteezy.com/arte-vetorial/2772916-space-ufo-icon-collection
 https://www.freepik.com/free-vector/colorful-cartoon-planets-icon-kit_8270973.htm#page=1&query=planet%20icon&position=0&from_view=keyword
 http://www.inf.ufsc.br/grafos/temas/custo-minimo/dijkstra.html
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyopengl - pip install PyOpenGL‑3.1.5‑cp39‑cp39‑win_amd64.whl
