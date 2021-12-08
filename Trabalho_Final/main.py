@@ -35,7 +35,7 @@ viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
 glLoadIdentity()
 
 
-TEXTURES = [read_texture(GREEN), read_texture(PINK), read_texture(PURPLE), read_texture(YELLOW)]
+TEXTURES = [read_texture(PURPLE), read_texture(YELLOW), read_texture(GREEN), read_texture(PINK)]
 
 # init mouse movement and center mouse on screen
 displayCenter = [screen.get_size()[i] // 2 for i in range(2)]
