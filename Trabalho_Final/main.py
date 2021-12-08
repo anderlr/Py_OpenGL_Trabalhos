@@ -6,9 +6,12 @@ from OpenGL.GLU import *
 from utils.constants import *
 from utils.utils import *
 
+securityCameraRotation=380
+multipleRotations=0
+
 pygame.init()
-display = (800, 600)
-screen = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+display = (1280, 720)
+screen = pygame.display.set_mode([display], DOUBLEBUF | OPENGL)
 pygame.display.set_caption(SCREEN_NAME)
 
 glEnable(GL_DEPTH_TEST)
@@ -30,6 +33,9 @@ glMatrixMode(GL_MODELVIEW)
 gluLookAt(0, -8, 0, 0, 0, 0, 0, 0, 1)
 viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
 glLoadIdentity()
+
+
+TEXTURES = [read_texture(GREEN), read_texture(PINK), read_texture(PURPLE), read_texture(YELLOW)]
 
 # init mouse movement and center mouse on screen
 displayCenter = [screen.get_size()[i] // 2 for i in range(2)]
@@ -90,43 +96,33 @@ while run:
         # apply view matrix
         glPopMatrix()
         glMultMatrixf(viewMatrix)
-
         glLightfv(GL_LIGHT0, GL_POSITION, [1, -1, 1, 0])
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         glClearColor(*SCREEN_BACKGROUND_COLOR)
 
-        glPushMatrix()
+        if securityCameraRotation:
+            clockwise=True
+            multipleRotations+=1
+        #append the transformed coordinates to result
 
-        # path1 = f'.\Trabalho_Final\\assets\\texture_01.jpg'
-        # path2 = f'.\Trabalho_Final\\assets\\texture_02.jpg'
-        # path3 = f'.\Trabalho_Final\\assets\\texture_03.jpg'
+        if clockwise==True:
+            securityCameraRotation-=2
+        elif clockwise==False:
+            securityCameraRotation+=2
 
-        # texture1 = read_texture(path1)
-        # texture2 = read_texture(path2)
-        # texture3 = read_texture(path3)
+        qobj = gluQuadricTexture(sphere, GL_TRUE)
+        for i in range(4):
+            glPushMatrix()
+            glEnable(GL_TEXTURE_2D)
+            glBindTexture(GL_TEXTURE_2D, TEXTURES[i])
+            glTranslatef(*TRANSLATIONS[i])
+            glRotate(securityCameraRotation,0,0,1)
+            gluSphere(sphere, 0.7, 50, 50)
+            glPopMatrix()
 
-        # gluQuadricTexture(sphere, GL_TRUE)
-        # glEnable(GL_TEXTURE_2D)
-        # glBindTexture(GL_TEXTURE_2D, texture1)
-        glColor4f(0.5, 0.2, 0.2, 1)
-        glTranslatef(-1.5, 0, 0)
-        gluSphere(sphere, 0.7, 50, 50)
-
-        # glBindTexture(GL_TEXTURE_2D, texture2)
-        glTranslatef(-1.5, 0, 0)
-        glColor4f(0.2, 0.2, 0.5, 1)
-        gluSphere(sphere, 0.7, 32, 16) 
-
-        # glBindTexture(GL_TEXTURE_2D, texture3)
-        glTranslatef(3, 0, 0)
-        glColor4f(0.5, 0.2, 0.2, 1)
-        gluSphere(sphere, 0.7, 32, 16) 
-
-        # gluDeleteQuadric(qobj)
-        # glDisable(GL_TEXTURE_2D)
-
-        glPopMatrix()
+        gluDeleteQuadric(qobj)
+        glDisable(GL_TEXTURE_2D)
 
         pygame.display.flip()
         pygame.time.wait(10)

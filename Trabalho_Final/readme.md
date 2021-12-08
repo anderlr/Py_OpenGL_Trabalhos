@@ -23,7 +23,7 @@ Este algoritmo parte de uma estimativa inicial para o custo mínimo e vai sucess
 - [ ] Adicionar cor ou textura para a nave
 - [x] Adicionar cor ou textura para a os planetas
 - [ ] Posicionar a nave no cenário
-- [ ] Posicionar os planetas
+- [x] Posicionar os planetas
 - [x] Posicionar a câmera no cenário
 - [ ] Movimentar a nave seguindo menor caminho (Dijkstra)
 
