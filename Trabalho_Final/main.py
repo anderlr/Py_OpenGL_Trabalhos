@@ -11,7 +11,7 @@ multipleRotations=0
 
 pygame.init()
 display = (1280, 720)
-screen = pygame.display.set_mode([display], DOUBLEBUF | OPENGL)
+screen = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 pygame.display.set_caption(SCREEN_NAME)
 
 glEnable(GL_DEPTH_TEST)
