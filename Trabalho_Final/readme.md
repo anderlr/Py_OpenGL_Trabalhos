@@ -18,7 +18,7 @@ Este algoritmo parte de uma estimativa inicial para o custo mínimo e vai sucess
 
 ### Checklist:
 
-- [ ] Modelar a nave espacial
+- [x] Modelar a nave espacial
 - [x] Modelar os planetas
 - [ ] Adicionar cor ou textura para a nave
 - [x] Adicionar cor ou textura para a os planetas

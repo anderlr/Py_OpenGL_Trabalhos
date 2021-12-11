@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from utils.constants import *
+from constants.constants import *
 from utils.utils import *
 
 securityCameraRotation=380
