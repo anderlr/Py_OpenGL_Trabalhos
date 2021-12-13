@@ -3,11 +3,15 @@ from pygame.locals import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from utils.MeshRenderer import SpaceshipMesh
 from constants.constants import *
 from utils.utils import *
 
 securityCameraRotation=380
-multipleRotations=0
+
+TRANSLATIONS = [[0, 20, 0], [10, 40, 0], [20, 20, 0], [20, 0, 0], ]
+coord_x = 0
+coord_y = 0
 
 pygame.init()
 display = (1280, 720)
@@ -15,10 +19,6 @@ screen = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 pygame.display.set_caption(SCREEN_NAME)
 
 glEnable(GL_DEPTH_TEST)
-glEnable(GL_LIGHTING)
-glShadeModel(GL_SMOOTH)
-glEnable(GL_COLOR_MATERIAL)
-glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
 glEnable(GL_LIGHT0)
 glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
@@ -27,7 +27,7 @@ glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.0, 1.0, 1.0, 1])
 sphere = gluNewQuadric() 
 
 glMatrixMode(GL_PROJECTION)
-gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
 
 glMatrixMode(GL_MODELVIEW)
 gluLookAt(0, -8, 0, 0, 0, 0, 0, 0, 1)
@@ -37,7 +37,6 @@ glLoadIdentity()
 
 TEXTURES = [read_texture(PURPLE), read_texture(YELLOW), read_texture(GREEN), read_texture(PINK)]
 
-# init mouse movement and center mouse on screen
 displayCenter = [screen.get_size()[i] // 2 for i in range(2)]
 mouseMove = [0, 0]
 pygame.mouse.set_pos(displayCenter)
@@ -61,22 +60,16 @@ while run:
             pygame.mouse.set_pos(displayCenter)    
 
     if not paused:
-        # get keys
         keypress = pygame.key.get_pressed()
-        #mouseMove = pygame.mouse.get_rel()
     
-        # init model view matrix
         glLoadIdentity()
 
-        # apply the look up and down
         up_down_angle += mouseMove[1]*0.1
         glRotatef(up_down_angle, 1.0, 0.0, 0.0)
 
-        # init the view matrix
         glPushMatrix()
         glLoadIdentity()
 
-        # apply the movment 
         if keypress[pygame.K_w]:
             glTranslatef(0,0,0.1)
         if keypress[pygame.K_s]:
@@ -86,14 +79,11 @@ while run:
         if keypress[pygame.K_a]:
             glTranslatef(0.1,0,0)
 
-        # apply the left and right rotation
         glRotatef(mouseMove[0]*0.1, 0.0, 1.0, 0.0)
 
-        # multiply the current matrix by the get the new view matrix and store the final vie matrix 
         glMultMatrixf(viewMatrix)
         viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
 
-        # apply view matrix
         glPopMatrix()
         glMultMatrixf(viewMatrix)
         glLightfv(GL_LIGHT0, GL_POSITION, [1, -1, 1, 0])
@@ -101,15 +91,7 @@ while run:
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         glClearColor(*SCREEN_BACKGROUND_COLOR)
 
-        if securityCameraRotation:
-            clockwise=True
-            multipleRotations+=1
-        #append the transformed coordinates to result
-
-        if clockwise==True:
-            securityCameraRotation-=2
-        elif clockwise==False:
-            securityCameraRotation+=2
+        securityCameraRotation+=5
 
         qobj = gluQuadricTexture(sphere, GL_TRUE)
         for i in range(4):
@@ -118,8 +100,22 @@ while run:
             glBindTexture(GL_TEXTURE_2D, TEXTURES[i])
             glTranslatef(*TRANSLATIONS[i])
             glRotate(securityCameraRotation,0,0,1)
-            gluSphere(sphere, 0.7, 50, 50)
+            gluSphere(sphere, 1.5, 50, 500)
             glPopMatrix()
+
+        # if coord_x < 20 and coord_y >= 0:
+        #     coord_x = coord_x + 0.1
+        # elif coord_x >= 19 and coord_y < 20:
+        #     coord_y = coord_y + 0.1
+        # else:
+        #     coord_x = coord_x - 0.1
+        #     coord_y = coord_y + 0.1
+
+        glPushMatrix()
+        glTranslatef(coord_x, coord_y, 5)
+        glRotate(securityCameraRotation,0,0,0.4)
+        SpaceshipMesh()
+        glPopMatrix()
 
         gluDeleteQuadric(qobj)
         glDisable(GL_TEXTURE_2D)

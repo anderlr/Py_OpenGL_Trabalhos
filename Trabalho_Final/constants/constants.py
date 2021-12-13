@@ -6,8 +6,6 @@ PINK = f'.\Trabalho_Final\\assets\\texture_pink.jpg'
 PURPLE = f'.\Trabalho_Final\\assets\\texture_purple.jpg'
 YELLOW = f'.\Trabalho_Final\\assets\\texture_yellow.jpg'
 
-TRANSLATIONS = [(0, 10, 0), (5, 18, 0), (10, 10, 0), (10, 0, 0), ]
-
 SPACESHIP_VERTICES_VECTOR = [
     (-3.5539525100602987e-08, 0.33597636222839355, 1.320582389831543),
     (-3.5539525100602987e-08, 1.2177491188049316, 0.9739407300949097),

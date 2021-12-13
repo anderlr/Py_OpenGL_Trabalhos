@@ -1,3 +1,4 @@
+import random
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -19,3 +20,11 @@ def read_texture(filename):
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.size[0], img.size[1], 0, GL_RGB, GL_UNSIGNED_BYTE, img_data)
     return textID
+
+
+def random_color():
+    x = random.randint(0, 255)/255
+    y = random.randint(0, 255)/255
+    z = random.randint(0, 255)/255
+    color = (x, y, z)
+    return color
