@@ -12,6 +12,7 @@ securityCameraRotation=380
 TRANSLATIONS = [[0, 20, 0], [10, 40, 0], [20, 20, 0], [20, 0, 0], ]
 coord_x = 0
 coord_y = 0
+final_coord = False
 
 pygame.init()
 display = (1280, 720)
@@ -103,13 +104,13 @@ while run:
             gluSphere(sphere, 1.5, 50, 500)
             glPopMatrix()
 
-        # if coord_x < 20 and coord_y >= 0:
-        #     coord_x = coord_x + 0.1
-        # elif coord_x >= 19 and coord_y < 20:
-        #     coord_y = coord_y + 0.1
-        # else:
-        #     coord_x = coord_x - 0.1
-        #     coord_y = coord_y + 0.1
+        if coord_x < 20 and coord_y == 0:
+            coord_x = coord_x + 0.1
+        elif coord_x >= 20 and coord_y >= 0:
+            coord_y = coord_y + 0.1
+        elif coord_x >= 20 and coord_y >= 20:
+            coord_x = coord_x - 0.1
+            coord_y = coord_y + 0.1
 
         glPushMatrix()
         glTranslatef(coord_x, coord_y, 5)
