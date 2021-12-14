@@ -22,10 +22,10 @@ Este algoritmo parte de uma estimativa inicial para o custo mínimo e vai sucess
 - [x] Modelar os planetas
 - [ ] Adicionar cor ou textura para a nave
 - [x] Adicionar cor ou textura para a os planetas
-- [ ] Posicionar a nave no cenário
+- [x] Posicionar a nave no cenário
 - [x] Posicionar os planetas
 - [x] Posicionar a câmera no cenário
-- [ ] Movimentar a nave seguindo menor caminho (Dijkstra)
+- [x] Movimentar a nave seguindo menor caminho (Dijkstra)
 
 
 https://pt.vecteezy.com/arte-vetorial/2772916-space-ufo-icon-collection
